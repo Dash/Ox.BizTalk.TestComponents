@@ -23,7 +23,7 @@
 			<frameworkAssembly assemblyName="System" />
 			<frameworkAssembly assemblyName="Microsoft.BizTalk.Interop.TransportProxy" />
 			<frameworkAssembly assemblyName="Microsoft.BizTalk.Pipeline" />
-			<frameworkAssembly assemblyName="Microsoft.BizTalk.XLANGs/BaseTypes" />
+			<frameworkAssembly assemblyName="Microsoft.BizTalk.XLANGs.BaseTypes" />
 		</frameworkAssemblies>
 			
 
