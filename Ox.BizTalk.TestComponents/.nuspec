@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<!-- Required elements-->
+		<id>Ox.BizTalk.TestComponents</id>
+		<version>$version$</version>
+		<description>
+			Test implementations for BizTalk base classes and interfaces, for the use with unit tests outside of the BizTalk runtime.
+			Requires Microsoft BizTalk Server to be installed.
+		</description>
+		<authors>Dash</authors>
+		<projectUrl>https://github.com/Dash/Ox.BizTalk.TestComponents</projectUrl>
+		<license type="expression">MIT</license>
+		<releaseNotes>v1.0.0 - Initial release</releaseNotes>
+		<copyright>$copyright$</copyright>
+		<tags>biztalk test api</tags>
+		<repository type="git" url="https://github.com/Dash/Ox.BizTalk.TestComponents.git" branch="master" />
+		<title>Unit Test Implementations for BizTalk</title>
+		<packageTypes>
+			<packageType name="Dependency"/>
+		</packageTypes>
+		<frameworkAssemblies>
+			<frameworkAssembly assemblyName="System" />
+			<frameworkAssembly assemblyName="Microsoft.BizTalk.Interop.TransportProxy" />
+			<frameworkAssembly assemblyName="Microsoft.BizTalk.Pipeline" />
+			<frameworkAssembly assemblyName="Microsoft.BizTalk.XLANGs/BaseTypes" />
+		</frameworkAssemblies>
+			
+
+		<!-- Optional elements -->
+		<!-- ... -->
+	</metadata>
+	<!-- Optional 'files' node -->
+	<files>
+		<file src="bin\$configuration$\Ox.BizTalk.TestComponents.dll" target="lib" />
+		<file src="bin\$configuration$\Ox.BizTalk.TestComponents.pdb" target="lib" />
+	</files>
+</package>

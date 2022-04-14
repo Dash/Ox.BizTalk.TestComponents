@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ox.BizTalk.TestComponents", "Ox.BizTalk.TestComponents\Ox.BizTalk.TestComponents.csproj", "{5F02C445-2E0F-4781-8359-3BB5727A2D14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{517F11F7-1FBF-43B8-8536-10FD1A787369}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F02C445-2E0F-4781-8359-3BB5727A2D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F02C445-2E0F-4781-8359-3BB5727A2D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F02C445-2E0F-4781-8359-3BB5727A2D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F02C445-2E0F-4781-8359-3BB5727A2D14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C75AE5A-F86D-4E89-BED2-E7FBEDFF2927}
+	EndGlobalSection
+EndGlobal
