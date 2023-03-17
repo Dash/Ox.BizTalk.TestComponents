@@ -8,6 +8,9 @@ using Microsoft.BizTalk.Message.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBasePropertyBag"/>
+	/// </summary>
 	[Serializable]
     public class TestPropertyBag : IBasePropertyBag, IPropertyBag
     {

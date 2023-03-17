@@ -8,6 +8,9 @@ using Microsoft.BizTalk.TransportProxy.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBTTransportConfig"/>
+	/// </summary>
 	public class TestTransportConfig : IBTTransportConfig
 	{
 		protected Dictionary<string, (IPropertyBag adapterConfig, IPropertyBag biztalkConfig)> endpoints = new Dictionary<string, (IPropertyBag adapterConfig, IPropertyBag biztalkConfig)>();

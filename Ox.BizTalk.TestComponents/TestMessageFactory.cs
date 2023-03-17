@@ -8,6 +8,9 @@ using Microsoft.BizTalk.PipelineOM;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBaseMessageFactory"/>
+	/// </summary>
 	[Serializable]
 	public class TestMessageFactory : IBaseMessageFactory
 	{

@@ -7,6 +7,9 @@ using Microsoft.BizTalk.Component.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IResourceTracker"/>
+	/// </summary>
 	public class TestResourceTracker : IResourceTracker
 	{
 		protected List<object> resources = new List<object>();

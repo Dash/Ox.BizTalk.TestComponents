@@ -4,14 +4,15 @@
 		<!-- Required elements-->
 		<id>Ox.BizTalk.TestComponents</id>
 		<version>$version$</version>
-		<description>
-			Test implementations for BizTalk base classes and interfaces, for the use with unit tests outside of the BizTalk runtime.
-			Requires Microsoft BizTalk Server to be installed.
+		<description>Test implementations for BizTalk base classes and interfaces, for the use with unit tests outside of the BizTalk runtime.
+Requires Microsoft BizTalk Server to be installed.
 		</description>
 		<authors>Dash</authors>
 		<projectUrl>https://github.com/Dash/Ox.BizTalk.TestComponents</projectUrl>
 		<license type="expression">MIT</license>
-		<releaseNotes>v1.0.0 - Initial release</releaseNotes>
+		<releaseNotes>v1.0.0 - Initial release
+1.1.0 - Added IPipelineContext handler, improved pipeline compatibility
+		</releaseNotes>
 		<copyright>$copyright$</copyright>
 		<tags>biztalk test api</tags>
 		<repository type="git" url="https://github.com/Dash/Ox.BizTalk.TestComponents.git" branch="master" />
@@ -24,6 +25,7 @@
 			<frameworkAssembly assemblyName="Microsoft.BizTalk.Interop.TransportProxy" />
 			<frameworkAssembly assemblyName="Microsoft.BizTalk.Pipeline" />
 			<frameworkAssembly assemblyName="Microsoft.XLANGs.BaseTypes" />
+			<frameworkAssembly assemblyName="Microsoft.BizTalk.Bam.EventObservation" />
 		</frameworkAssemblies>
 			
 
