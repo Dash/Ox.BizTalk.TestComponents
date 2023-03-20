@@ -7,8 +7,11 @@ using Microsoft.BizTalk.Message.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBaseMessageContext"/>
+	/// </summary>
 	[Serializable]
-	public class TestMessageContext : IBaseMessageContext
+	public class TestMessageContext : IBaseMessageContext, ICloneable
 	{
 		protected Dictionary<(string name, string ns), (object val, ContextPropertyType type)> properties = new Dictionary<(string name, string ns), (object val, ContextPropertyType type)>();
 
@@ -49,6 +52,18 @@ namespace Ox.BizTalk.TestComponents
 		public virtual ContextPropertyType GetPropertyType(string strName, string strNameSpace)
 		{
 			return this.properties[(strName, strNameSpace)].type;
+		}
+
+		public object Clone()
+		{
+			var clone = new TestMessageContext();
+			
+			foreach(var prop in this.properties)
+			{
+				clone.properties.Add(prop.Key, prop.Value);
+			}
+
+			return clone;
 		}
 
 		public virtual uint CountProperties => (uint)this.properties.Count;

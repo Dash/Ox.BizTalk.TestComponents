@@ -10,6 +10,9 @@ using Microsoft.BizTalk.TransportProxy.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBTTransportBatch"/>
+	/// </summary>
 	public class TestTransportBatch : IBTTransportBatch
 	{
 		public List<IBaseMessage> submittedMessages = new List<IBaseMessage>();

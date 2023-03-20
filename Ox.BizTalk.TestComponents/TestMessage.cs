@@ -8,6 +8,9 @@ using Microsoft.BizTalk.Message.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBaseMessage"/>
+	/// </summary>
 	[Serializable]
 	public class TestMessage : IBaseMessage, IDisposable
 	{
@@ -84,8 +87,8 @@ namespace Ox.BizTalk.TestComponents
 		}
 
 		public virtual Guid MessageID { get; }
-		public virtual IBaseMessageContext Context { get; set; }
-		public virtual IBaseMessagePart BodyPart => this.GetPart(this.bodyPart);
+		public virtual IBaseMessageContext Context { get; set; } = new TestMessageContext();
+		public virtual IBaseMessagePart BodyPart => this.GetPart(this.bodyPart) ?? this.parts.FirstOrDefault().Value;
 		public virtual string BodyPartName => this.bodyPart;
 		public virtual int PartCount => this.parts.Count;
 		public virtual bool IsMutable => true;

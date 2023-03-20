@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Ox.BizTalk.TestComponents.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,8 +31,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Ox.BizTalk.TestComponents.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.BizTalk.Bam.EventObservation, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.BizTalk.Interop.TransportProxy, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.BizTalk.Interop.TransportProxy\v4.0_3.0.1.0__31bf3856ad364e35\Microsoft.BizTalk.Interop.TransportProxy.dll</HintPath>
@@ -56,9 +59,12 @@
   <ItemGroup>
     <Compile Include="MethodCalledEventArgs.cs" />
     <Compile Include="TestBatchCallBack.cs" />
+    <Compile Include="TestHelpers\PipelineResultValidator.cs" />
     <Compile Include="TestMessage.cs" />
     <Compile Include="TestMessageContext.cs" />
+    <Compile Include="TestMessageExtensions.cs" />
     <Compile Include="TestMessageFactory.cs" />
+    <Compile Include="TestPipelineContext.cs" />
     <Compile Include="TestPropertyBag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMessagePart.cs" />
@@ -71,6 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MSTest.TestFramework">
+      <Version>3.0.2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

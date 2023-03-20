@@ -9,6 +9,9 @@ using Microsoft.BizTalk.TransportProxy.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBTTransportProxy"/>
+	/// </summary>
 	public class TestTransportProxy : IBTTransportProxy
 	{
 		public TestTransportProxy()

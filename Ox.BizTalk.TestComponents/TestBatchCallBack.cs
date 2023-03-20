@@ -7,6 +7,9 @@ using Microsoft.BizTalk.TransportProxy.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBTBatchCallBack"/>
+	/// </summary>
 	public class TestBatchCallBack : IBTBatchCallBack
 	{
 		public event EventHandler<MethodCalledEventArgs> OnBatchComplete;

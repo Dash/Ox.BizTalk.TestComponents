@@ -8,6 +8,9 @@ using Microsoft.BizTalk.Message.Interop;
 
 namespace Ox.BizTalk.TestComponents
 {
+	/// <summary>
+	/// Implements <see cref="IBaseMessagePart"/>
+	/// </summary>
 	[Serializable]
 	public class TestMessagePart : IBaseMessagePart, IDisposable
 	{
@@ -30,7 +33,7 @@ namespace Ox.BizTalk.TestComponents
 		}
 
 		public virtual Guid PartID { get; }
-		public virtual IBasePropertyBag PartProperties { get; set; }
+		public virtual IBasePropertyBag PartProperties { get; set; } = new TestPropertyBag();
 		public virtual string ContentType { get; set; }
 		public virtual string Charset { get; set; }
 		public virtual Stream Data { get; set; }
