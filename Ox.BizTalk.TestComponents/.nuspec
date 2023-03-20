@@ -36,5 +36,6 @@ Requires Microsoft BizTalk Server to be installed.
 	<files>
 		<file src="bin\$configuration$\Ox.BizTalk.TestComponents.dll" target="lib" />
 		<file src="bin\$configuration$\Ox.BizTalk.TestComponents.pdb" target="lib" />
+		<file src="bin\$configuration$\Ox.BizTalk.TestComponents.xml" target="lib" />
 	</files>
 </package>
