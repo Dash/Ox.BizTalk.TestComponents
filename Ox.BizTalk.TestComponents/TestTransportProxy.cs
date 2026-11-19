@@ -55,7 +55,7 @@ namespace Ox.BizTalk.TestComponents
 
 		public virtual void ReceiverShuttingdown(string receiveLocationUrl, Exception exception)
 		{
-			OnRegisterIsolatedReceiver?.Invoke(this, new MethodCalledEventArgs(receiveLocationUrl, exception));
+			OnReceiverShuttingdown?.Invoke(this, new MethodCalledEventArgs(receiveLocationUrl, exception));
 		}
 
 		public event EventHandler<MethodCalledEventArgs> OnTerminateIsolatedReceiver;

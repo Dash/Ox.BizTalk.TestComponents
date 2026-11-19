@@ -73,7 +73,7 @@ namespace Ox.BizTalk.TestComponents
 
 		public override IEnumerator GetEnumerator()
 		{
-			return this.parts.GetEnumerator();
+			return this.parts.Values.GetEnumerator();
 		}
 
 		public override object GetPropertyValue(Type propType)

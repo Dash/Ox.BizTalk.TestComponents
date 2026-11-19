@@ -1,11 +1,12 @@
-﻿using Microsoft.BizTalk.Message.Interop;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.BizTalk.Message.Interop;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.XLANGs.BaseTypes;
 
 namespace Ox.BizTalk.TestComponents
 {
@@ -44,6 +45,8 @@ namespace Ox.BizTalk.TestComponents
 
 			this.ValidatePartCount(message);
 			this.ValidatePartContentType(message);
+			this.ValidateExtraParts(message);
+			this.ValidateMissingParts(message);
 			this.ValidatePartOrder(message);
 			this.ValidateProperties(message);
 			this.ValidatePartStreams(message);
@@ -59,15 +62,36 @@ namespace Ox.BizTalk.TestComponents
 				// Get list of expected part names from other areas
 				var parts = this.partStreamValidators.Keys
 								.Union(this.partPropertyValidators.Keys)
-								.Union(this.partContentTypeValidators.Keys);
+								.Union(this.partContentTypeValidators.Keys)
+								.Union(this.partOrder);
 
 				this.LoopParts(message, (_, name) =>
 				{
-					if (!parts.Contains(name))
+					if (!parts.Contains(name, StringComparer.OrdinalIgnoreCase))
 					{
 						Assert.Fail($"Unexpected part {name} found.");
 					}
 				});
+			}
+		}
+
+		protected virtual void ValidateMissingParts(IBaseMessage message)
+		{
+			if (this.checkExtraParts)
+			{
+				// Get list of expected part names from other areas
+				var parts = this.partStreamValidators.Keys
+								.Union(this.partPropertyValidators.Keys)
+								.Union(this.partContentTypeValidators.Keys)
+								.Union(this.partOrder);
+
+				foreach (var part in parts)
+				{
+					if (message.GetPart(part) == null)
+					{
+						Assert.Fail($"Expected part {part} not found.");
+					}
+				}
 			}
 		}
 
@@ -83,7 +107,13 @@ namespace Ox.BizTalk.TestComponents
 
 			this.LoopParts(message, (part, name) =>
 			{
-				Assert.AreEqual(this.partContentTypeValidators[name], part.ContentType);
+				// Check there is a validator for this part
+				if (this.partContentTypeValidators.ContainsKey(name))
+				{
+					Assert.AreEqual(
+						this.partContentTypeValidators[name].MediaType, 
+						new System.Net.Mime.ContentType(part.ContentType).MediaType);
+				}
 			});
 		}
 
@@ -135,7 +165,7 @@ namespace Ox.BizTalk.TestComponents
 			for (int i = 0; i < message.PartCount; i++)
 			{
 				message.GetPartByIndex(i, out string partName);
-				Assert.AreEqual(this.partOrder[i], partName, $"Unexpected part name at index {i}.");
+				Assert.AreEqual(this.partOrder[i].ToLower(), partName.ToLower(), $"Unexpected part name at index {i}.");
 			}
 		}
 
@@ -163,7 +193,11 @@ namespace Ox.BizTalk.TestComponents
 		/// Keyed on partname, subdictionaries have part qualifier as key and callback finally as value item.
 		/// </summary>
 		protected Dictionary<string, Dictionary<(string name, string ns), Action<object>>> partPropertyValidators = new Dictionary<string, Dictionary<(string name, string ns), Action<object>>>();
-		protected Dictionary<string, string> partContentTypeValidators = new Dictionary<string, string>();
+		/// <summary>
+		/// Consumed by <see cref="ValidatePartContentType(IBaseMessage)"/>. Keyed by partName, the value the expected
+		/// content-type (simple text comparison)
+		/// </summary>
+		protected Dictionary<string, System.Net.Mime.ContentType> partContentTypeValidators = new Dictionary<string, System.Net.Mime.ContentType>();
 		protected string[] partOrder = new string[0];
 		protected int? partCount = null;
 		protected bool checkExtraParts = false;
@@ -192,7 +226,7 @@ namespace Ox.BizTalk.TestComponents
 		/// Validates a context property meets custom criteria
 		/// </summary>
 		/// <param name="name">Property name</param>
-		/// <param name="ns">Property namesapce</param>
+		/// <param name="ns">Property namespace</param>
 		/// <param name="validator">Delegate to be called for validation, takes value of property as argument.</param>
 		public PipelineResultValidator AssertProperty(string name, string ns, Action<object> validator)
 		{
@@ -221,7 +255,7 @@ namespace Ox.BizTalk.TestComponents
 		/// <summary>
 		/// Passes the named message part to the supplied callback for custom validation
 		/// </summary>
-		/// <param name="partName">Name of part to assocaite validator to</param>
+		/// <param name="partName">Name of part to associate validator to</param>
 		/// <param name="callback">Callback to validator</param>
 		/// <exception cref="ArgumentNullException">Either property being null</exception>
 		/// <exception cref="InvalidOperationException">Attempt to add another validator for the part name</exception>
@@ -240,7 +274,7 @@ namespace Ox.BizTalk.TestComponents
 		/// <summary>
 		/// Validates a part data stream matches that of the supplied string
 		/// </summary>
-		/// <param name="partName">Name of part to assocaite validator to</param>
+		/// <param name="partName">Name of part to associate validator to</param>
 		/// <param name="content">Expected string content of the part</param>
 		/// <exception cref="ArgumentNullException">Either property being null</exception>
 		/// <exception cref="InvalidOperationException">Attempt to add another validator for the part name</exception>
@@ -248,7 +282,9 @@ namespace Ox.BizTalk.TestComponents
 		{
 			return this.AssertPartStream(partName, (data) =>
 			{
+				long pos = data.Position;
 				Assert.AreEqual(content, new StreamReader(data).ReadToEnd(), "Stream content does not match.");
+				data.Position = pos;
 			});
 		}
 
@@ -268,10 +304,15 @@ namespace Ox.BizTalk.TestComponents
 
 			partName = partName?.ToLower() ?? throw new ArgumentNullException(nameof(partName));
 
+			// If this is the first validator for a part, create the dictionary for the part
+			if(!this.partPropertyValidators.ContainsKey(partName))
+				this.partPropertyValidators[partName] = new Dictionary<(string, string), Action<object>>();
 
+			// Disallow multiple validators for the same property on the same part
 			if (this.partPropertyValidators[partName]?.ContainsKey((name, ns)) ?? false)
 				throw new InvalidOperationException("Only one property callback allowed per property, per part.");
 
+			// Add validator
 			this.partPropertyValidators[partName].Add((name, ns), callback);
 
 			return this;
@@ -285,6 +326,19 @@ namespace Ox.BizTalk.TestComponents
 		/// <exception cref="InvalidOperationException">Attempt to add multiple content types to a part</exception>
 		public PipelineResultValidator AssertPartContentType(string partName, string contentType)
 		{
+			return this.AssertPartContentType(partName, new System.Net.Mime.ContentType(contentType));
+		}
+
+		/// <summary>
+		/// Validates a part's content type
+		/// </summary>
+		/// <param name="partName">Part name</param>
+		/// <param name="contentType">Expected content/mime type</param>
+		/// <exception cref="InvalidOperationException">Attempt to add multiple content types to a part</exception>
+		public PipelineResultValidator AssertPartContentType(string partName, System.Net.Mime.ContentType contentType)
+		{
+			partName = partName?.ToLower() ?? throw new ArgumentNullException(nameof(partName));
+
 			if (this.partContentTypeValidators?.ContainsKey(partName) ?? false)
 				throw new InvalidOperationException("Only one content type can be applied to a property part.");
 
@@ -318,7 +372,7 @@ namespace Ox.BizTalk.TestComponents
 			if (this.partOrder.Length > 0)
 				throw new InvalidOperationException("Part order can only be defined once.");
 
-			this.partOrder = partNames;
+			this.partOrder = partNames.Select(x => x?.ToLower()).ToArray();
 
 			return this;
 		}

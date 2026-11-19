@@ -12,6 +12,7 @@ Requires Microsoft BizTalk Server to be installed.
 		<license type="expression">MIT</license>
 		<releaseNotes>v1.0.0 - Initial release
 1.1.0 - Added IPipelineContext handler, improved pipeline compatibility
+1.2.0 - Numerous validator fixes; fixed bug in TestMessageContext.ReadAt not returning the actual value; made upstream mstest version floating
 		</releaseNotes>
 		<copyright>$copyright$</copyright>
 		<tags>biztalk test api</tags>
@@ -20,6 +21,11 @@ Requires Microsoft BizTalk Server to be installed.
 		<packageTypes>
 			<packageType name="Dependency"/>
 		</packageTypes>
+		<dependencies>
+			<group targetFramework=".NETFramework4.7.2">
+				<dependency id="MSTest.TestFramework" version="[4.0.0,5.0.0)" />
+			</group>
+		</dependencies>
 		<frameworkAssemblies>
 			<frameworkAssembly assemblyName="System" />
 			<frameworkAssembly assemblyName="Microsoft.BizTalk.Interop.TransportProxy" />
