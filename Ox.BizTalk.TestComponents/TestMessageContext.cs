@@ -19,7 +19,7 @@ namespace Ox.BizTalk.TestComponents
 		{
 			var prop = this.properties.ElementAt(index);
 			(strName, strNamespace) = prop.Key;
-			return prop.Value;
+			return prop.Value.val;
 		}
 
 		public virtual object Read(string strName, string strNamespace)

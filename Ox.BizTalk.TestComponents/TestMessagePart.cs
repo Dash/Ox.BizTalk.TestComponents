@@ -23,7 +23,11 @@ namespace Ox.BizTalk.TestComponents
 
 		public virtual void GetSize(out ulong lSize, out bool fImplemented)
 		{
-			lSize = (ulong)this.Data.Length;
+			if(this.Data is null)
+				lSize = 0;
+			else
+				lSize = (ulong)this.Data.Length;
+
 			fImplemented = false;
 		}
 
@@ -45,7 +49,8 @@ namespace Ox.BizTalk.TestComponents
 			{
 				if (disposing)
 				{
-					this.Data.Dispose();
+					if(this.Data != null)
+						this.Data.Dispose();
 				}
 
 				disposedValue = true;

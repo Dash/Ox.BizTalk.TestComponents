@@ -106,7 +106,7 @@ namespace Ox.BizTalk.TestComponents
 			OnSubmitResponseMessage?.Invoke(this, new MethodCalledEventArgs(solicitMsgSent, responseMsgToSubmit));
 		}
 
-		public IResourceTracker ResourceTracker => new TestResourceTracker();
+		public IResourceTracker ResourceTracker { get; } = new TestResourceTracker();
 
 		
 	}
