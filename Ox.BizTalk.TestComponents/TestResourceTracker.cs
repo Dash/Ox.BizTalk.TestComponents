@@ -21,12 +21,27 @@ namespace Ox.BizTalk.TestComponents
 
 		public virtual void DisposeAll()
 		{
-			foreach (var obj in resources)
-			{
-				resources.Remove(obj);
+			var resourcesToDispose = this.resources.ToArray();
+			this.resources.Clear();
 
-				if (obj is IDisposable disposable)
-					disposable.Dispose();
+			List<Exception> exceptions = new List<Exception>();
+
+			foreach (var obj in resourcesToDispose)
+			{
+				try
+				{
+					if (obj is IDisposable disposable)
+						disposable.Dispose();
+				}
+				catch(Exception ex)
+				{
+					exceptions.Add(ex);
+				}
+			}
+
+			if (exceptions.Count > 0)
+			{
+				throw new AggregateException(exceptions);
 			}
 		}
 	}

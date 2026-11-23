@@ -50,6 +50,9 @@ namespace Ox.BizTalk.TestComponents
 
 		public virtual IBaseMessagePart GetPart(string partName)
 		{
+			if (partName == null)
+				return null;
+
 			IBaseMessagePart result;
 			this.parts.TryGetValue(partName, out result);
 			return result;

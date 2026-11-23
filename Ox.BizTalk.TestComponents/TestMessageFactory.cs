@@ -15,7 +15,7 @@ namespace Ox.BizTalk.TestComponents
 	public class TestMessageFactory : IBaseMessageFactory
 	{
 		/// <summary>
-		/// Creats a blank <see cref="TestMessagePart"/>
+		/// Creates a blank <see cref="TestMessagePart"/>
 		/// </summary>
 		/// <returns>Empty message part</returns>
 		public virtual IBaseMessagePart CreateMessagePart()
